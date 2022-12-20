@@ -52,7 +52,7 @@ app.get("/postings",async(req,res)=>{
             res.status(404)
         }
         else{
-            res.send(result)
+            res.json(result)
             res.status(200)
         }
     })
@@ -73,7 +73,7 @@ app.get("/postings/:postingid",async(req,res)=>{
 app.get("/admin/users",async(req,res)=>{
     try {
         const result = await User.find({})
-        res.send(result)
+        res.json(result)
         res.status(200)
     } catch (error) {
         console.log(error)
@@ -97,6 +97,18 @@ app.put("/admin/postings/updatefield",async(req,res)=>{
     try {
         let {postingid,postingkey,postingvalue} = req.body
         const result = await Posting.updateOne({_id:postingid},{$set:{[postingkey]:postingvalue}})
+        res.json(result)
+        res.status(200)
+    } catch (error) {
+        console.log(error)
+        res.status(404)
+    }
+})
+
+app.put("/admin/postings/updatejd",async(req,res)=>{
+    try {
+        let {postingid,jd} = req.body
+        const result = await Posting.updateOne({_id:postingid},{$set:{job_description:jd}})
         res.json(result)
         res.status(200)
     } catch (error) {
